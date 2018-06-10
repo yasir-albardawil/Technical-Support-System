@@ -8,11 +8,11 @@ error_reporting( E_ALL & ~E_DEPRECATED & ~E_NOTICE );
 //}
 
 // $db = new PDO('mysql:host=localhost;dbname=kfu_database;charset=utf8mb4', 'root', '');
-$link = mysqli_connect("localhost", "root", "", "kfu_database") or die($link);
+$link = mysqli_connect("eu-cdbr-west-02.cleardb.net", "ba7a07e1878e53", "ab27f554", "heroku_8f300be620e34e7");
 
 function logfile($msg){
 	if(isset($_SESSION['user'])) {
-	$res=mysql_query("SELECT * FROM users WHERE Emp_no=".$_SESSION['employee']);
+	$res=mysqli_query($link, "SELECT * FROM users WHERE Emp_no=".$_SESSION['employee']);
 	$EmpRow=mysql_fetch_array($res);
 	}
 	$file = fopen("logfile.php","r");
@@ -26,14 +26,14 @@ function logfile($msg){
 
 function checker(){
 	if(isset($_SESSION['employee'])) {
-		$res=mysql_query("SELECT * FROM rent WHERE Emp_no=".$_SESSION['employee']);
+		$res=mysqli_query($link, "SELECT * FROM rent WHERE Emp_no=".$_SESSION['employee']);
 	    $rentRow=mysql_fetch_array($res);
 		$start = time();
 		$end =  $rentRow['Time'];
 	
 		if(!empty($end)){ 
 		if($start>$end){
-		mysql_query("UPDATE users SET Privileges='3' WHERE UserID='$_SESSION[user]'");
+		mysqli_query($link, "UPDATE users SET Privileges='3' WHERE UserID='$_SESSION[user]'");
 			} 
 		}
 		
